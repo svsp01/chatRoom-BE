@@ -23,7 +23,7 @@ app.post('/login', (req, res) => {
         const userId = Math.random().toString(36)
         users.push({
             userId: userId,
-            username:username
+            username: username
         })
         res.json({ userId, username })
     } catch (error) {
@@ -34,7 +34,7 @@ app.post('/login', (req, res) => {
 
 io.on('connection', (socket) => {
     socket.on('join', ({ userId }) => {
-        const username = users.find((user)=>user.userId===userId)
+        const username = users.find((user) => user.userId === userId)
         if (username) {
             socket.username = username
             console.log(`User ${username} joined with ID: ${socket.id}`)
@@ -44,14 +44,12 @@ io.on('connection', (socket) => {
             })
         }
     })
-    
-    console.log('client connected:', socket.username)
     socket.on('chatMessage', (msg) => {
         console.log('Message received:', msg)
         io.emit('message', {
-            id:`${socket.id}`,
+            id: `${socket.id}`,
             username: socket.username,
-            message:msg
+            message: msg
         })
     })
 
