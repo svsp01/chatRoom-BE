@@ -3,7 +3,6 @@ const app = express()
 const socketIo = require('socket.io')
 const server = require('http').createServer(app);
 const bodyParser = require('body-parser')
-const cors = require('cors')
 const io = socketIo(server, {
     cors: {
         origin: 'http://localhost:3000'
@@ -12,7 +11,6 @@ const io = socketIo(server, {
 
 const users = []
 
-app.use(cors())
 app.use(bodyParser.json())
 app.post('/login', (req, res) => {
     try {
@@ -25,7 +23,7 @@ app.post('/login', (req, res) => {
             userId: userId,
             username: username
         })
-        res.json({ userId, username })
+        res.status(200).json({ userId, username })
     } catch (error) {
         console.error('Login error:', error)
         res.status(500).json({ error: 'Internal server error' })
